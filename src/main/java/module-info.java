@@ -7,6 +7,7 @@ module com.example.mutuelle_centralisee_v2 {
     requires java.sql;
     requires json.simple;
     requires mysql.connector.java;
+    requires java.mail;
 
     opens com.example.mutuelle_centralisee_v2 to javafx.fxml;
     exports com.example.mutuelle_centralisee_v2;

@@ -1,22 +1,18 @@
 package com.example.mutuelle_centralisee_v2.Controllers;
+
 import com.example.mutuelle_centralisee_v2.DAO.DAOFactory;
 import com.example.mutuelle_centralisee_v2.DAOimpl.ClientDAO;
+import com.example.mutuelle_centralisee_v2.DataBase.MailSender;
 import com.example.mutuelle_centralisee_v2.Helpers.Helpers;
 import com.example.mutuelle_centralisee_v2.Models.ClientModel;
 import com.example.mutuelle_centralisee_v2.MutualApp;
-import com.mysql.cj.xdevapi.ClientFactory;
-import com.sun.javafx.charts.Legend;
+import com.mysql.cj.protocol.Message;
+import com.mysql.cj.xdevapi.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
@@ -26,8 +22,18 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.util.*;
-
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 
 public class ClientController implements Initializable {
@@ -113,7 +119,7 @@ public class ClientController implements Initializable {
 
 
     @FXML
-    public void addClient(ActionEvent event) {
+    public void addClient(ActionEvent event) throws MessagingException {
 
         if (Validation()) {
             ClientModel client = new ClientModel();
@@ -133,6 +139,8 @@ public class ClientController implements Initializable {
 
             dataGrid.setItems(clients.show());
             ClearTable();
+
+            MailSender.sendMail("yassine.yb.99@gmail.com" , client);
         }
     }
 
@@ -147,6 +155,10 @@ public class ClientController implements Initializable {
         this.company.setText("");
         this.date.setValue(null);
     }
+
+
+
+
 
 
 
@@ -244,9 +256,11 @@ public class ClientController implements Initializable {
 
 
 
+
+
     private boolean Validation() {
 
-
+/*
         if(Helpers.VideValidation(lname.getText(),1)){
             Helpers.Vide("Erreur de validation", "Champ vide.", "Champ nom.");
             return  false;
@@ -300,7 +314,7 @@ public class ClientController implements Initializable {
             return  false;
         }
 
-
+*/
 
         return true;
     }
